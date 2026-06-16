@@ -19,7 +19,8 @@ else:
 def clear_term() -> None:
     os.system(CLEAR)
 
-#bypass cloudfare for api
+
+# bypass cloudfare for api
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept": "application/json",
@@ -59,6 +60,18 @@ def get_words_by_length(letters: str) -> dict[int, dict] | None:
         return words_by_length
     else:
         return None
+
+
+def select_words(result: dict[int, dict], count: int) -> list[str]:
+    all_words = []
+    for groupe in result.values():
+        all_words.extend(groupe["words"])
+
+    count = min(count, len(all_words))
+
+    selected = random.sample(all_words, count)
+
+    return selected
 
 
 def total_words(result: dict[int, dict]) -> int:
@@ -108,6 +121,12 @@ def crossword():
         result = get_words_by_length(letters)
 
     print(f"Your letters are : {letters.upper()}")
+    words_number = random.randint(4,10)
+    selected = select_words(result,words_number)
+    state = []
+    for mot in selected:
+        state.append({"word": mot, "found": False})
+        
 
 
 crossword()
