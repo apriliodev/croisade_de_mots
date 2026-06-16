@@ -3,6 +3,7 @@ import string
 import os
 import sys
 import requests
+import tkinter as tk
 from string import ascii_letters
 from random import choice, choices
 
@@ -77,6 +78,12 @@ def select_words(result: dict[int, dict], count: int) -> list[str]:
 def total_words(result: dict[int, dict]) -> int:
     return sum(group["count"] for group in result.values())
 
+def display_word(entry: dict) -> str:
+    if entry["found"]:
+        return " ".join(entry["word"].upper())
+    else:
+        lst = ["_" for i in range(len(entry["word"]))]
+        return " ".join(lst)
 
 def crossword():
     test: bool = False
@@ -121,12 +128,11 @@ def crossword():
         result = get_words_by_length(letters)
 
     print(f"Your letters are : {letters.upper()}")
-    words_number = random.randint(4,10)
-    selected = select_words(result,words_number)
+    words_number = random.randint(4, 10)
+    selected = select_words(result, words_number)
     state = []
     for mot in selected:
         state.append({"word": mot, "found": False})
-        
 
 
 crossword()
